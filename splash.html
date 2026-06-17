@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sad Station</title>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            height: 100vh;
+            /* আপনার ছবির সাথে মিল রেখে গোলাপি/পার্পল থিম */
+            background-color: #ffffff;
+            color: #d81b60; /* গাঢ় গোলাপি টেক্সট */
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .logo-container {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex; justify-content: center; align-items: center;
+            /* গোলাপি শ্যাডো */
+            box-shadow: 0 0 30px rgba(216, 27, 96, 0.3);
+            animation: pulse 2s infinite;
+            overflow: hidden;
+            border: 4px solid #d81b60; /* লোগোর চারপাশে গাঢ় গোলাপি বর্ডার */
+        }
+        #app-logo { width: 100%; height: 100%; object-fit: cover; }
+        h1 { margin-top: 20px; font-size: 26px; font-weight: bold; letter-spacing: 1px; color: #d81b60; }
+        
+        .loading-spinner {
+            margin-top: 20px;
+            width: 35px; height: 35px;
+            border: 4px solid #fce4ec;
+            border-top: 4px solid #d81b60; /* লোডিং গোলাপি */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img id="app-logo" src="" alt="Logo">
+    </div>
+    <h1>The Sad Station</h1>
+    <div class="loading-spinner"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="config.js"></script>
+    <script src="splash.js"></script>
+</body>
+</html>
