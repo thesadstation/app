@@ -13,6 +13,14 @@ const totalDurationEl = document.getElementById('total-duration');
 let playlist = []; 
 let currentIdx = 0;
 
+// ডাউনলোড বাটনের নতুন লজিক
+function confirmDownload() {
+    const confirmation = confirm("গানটি ডাউনলোড করতে আমাদের অফিসিয়াল সাইট (thesadstation.com) ভিজিট করতে হবে। আপনি কি যেতে চান?");
+    if (confirmation) {
+        window.open("https://thesadstation.com", "_blank");
+    }
+}
+
 // লোগো লজিক মুছে দেওয়া হয়েছে, শুধুমাত্র ব্যানার লোড হবে (যদি থাকে)
 async function loadBrandBranding() {
     try {
@@ -46,7 +54,7 @@ async function loadSongs() {
             </div>
             <div class="card-actions">
                 <button id="heart-${songId}" class="action-btn" onclick="toggleWishlist('${songId}')">🤍</button>
-                <a href="${songData.audio}" download class="action-btn">⬇️</a>
+                <button class="action-btn" onclick="confirmDownload()">⬇️</button>
                 <button class="action-btn" onclick="shareSong('${songData.title}')">🔗</button>
             </div>
         `;
@@ -159,4 +167,3 @@ window.addEventListener('load', () => {
         }, 2000);
     }
 });
-                   
