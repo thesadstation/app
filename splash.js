@@ -23,4 +23,3 @@ window.addEventListener('load', async () => {
         window.location.href = "get-started.html"; 
     }, 3000);
 });
-        
