@@ -10,38 +10,43 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             height: 100vh;
-            /* আপনার ছবির সাথে মিল রেখে গোলাপি/পার্পল থিম */
-            background-color: #ffffff;
-            color: #d81b60; /* গাঢ় গোলাপি টেক্সট */
-            font-family: 'Segoe UI', sans-serif;
+            /* স্ক্রিনশট অনুযায়ী ব্যাকগ্রাউন্ড গ্রেডিয়েন্ট */
+            background: linear-gradient(135deg, #d81b60 0%, #880e4f 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
         }
+        
         .logo-container {
-            width: 150px; height: 150px;
+            width: 120px; height: 120px;
             border-radius: 50%;
             background: #ffffff;
             display: flex; justify-content: center; align-items: center;
-            /* গোলাপি শ্যাডো */
-            box-shadow: 0 0 30px rgba(216, 27, 96, 0.3);
-            animation: pulse 2s infinite;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            border: 4px solid #d81b60; /* লোগোর চারপাশে গাঢ় গোলাপি বর্ডার */
+            border: 3px solid white;
+            margin-bottom: 20px;
         }
+        
         #app-logo { width: 100%; height: 100%; object-fit: cover; }
-        h1 { margin-top: 20px; font-size: 26px; font-weight: bold; letter-spacing: 1px; color: #d81b60; }
+        
+        h1 { 
+            margin-top: 10px; 
+            font-size: 22px; 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            color: #ffeb3b; /* স্ক্রিনশটের ব্র্যান্ড নামের কালার */
+        }
         
         .loading-spinner {
-            margin-top: 20px;
-            width: 35px; height: 35px;
-            border: 4px solid #fce4ec;
-            border-top: 4px solid #d81b60; /* লোডিং গোলাপি */
+            margin-top: 30px;
+            width: 30px; height: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
