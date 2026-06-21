@@ -61,6 +61,21 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="config.js"></script>
+    
+    <script>
+        // অটো-লগইন চেক করার স্ক্রিপ্ট
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                window.location.href = "home.html";
+            } else {
+                // যদি লগইন না থাকে, তবে লগইন পেজে পাঠিয়ে দিন
+                setTimeout(() => {
+                    window.location.href = "signin.html";
+                }, 2000); // ২ সেকেন্ড লোগো দেখানোর পর লগইন পেজে যাবে
+            }
+        });
+    </script>
+    
     <script src="index.js"></script>
 </body>
 </html>
