@@ -34,6 +34,18 @@ async function loadBrandBranding() {
 }
 
 async function loadSongs() {
+    // অফলাইন চেক সিস্টেম
+    if (!navigator.onLine) {
+        list.innerHTML = `
+            <div style="text-align:center; padding:50px; color:white; font-family:sans-serif;">
+                <h3 style="margin-bottom:10px;">আপনি এখন অফলাইনে আছেন</h3>
+                <p>দয়া করে ইন্টারনেট কানেকশন চালু করুন</p>
+                <button onclick="location.reload()" style="margin-top:15px; padding:10px 20px; border-radius:20px; border:none; background:#ffeb3b; color:#333; font-weight:bold; cursor:pointer;">আবার চেষ্টা করুন</button>
+            </div>
+        `;
+        return;
+    }
+
     list.innerHTML = "<p>গান লোড হচ্ছে...</p>";
     const snapshot = await db.collection("songs").get();
     list.innerHTML = "";
@@ -167,3 +179,4 @@ window.addEventListener('load', () => {
         }, 2000);
     }
 });
+        
