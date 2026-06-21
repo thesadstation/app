@@ -5,7 +5,7 @@ const list = document.getElementById('wishlist-list');
 // গান ক্লিক করলে ইনডেক্স ফাইলে প্লে করার সিস্টেম
 function playSongFromWishlist(songId) {
     localStorage.setItem('pendingPlayId', songId);
-    window.location.href = 'index.html';
+    window.location.href = 'home.html';
 }
 
 async function renderWishlist(user) {
