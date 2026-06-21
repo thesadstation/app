@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Sad Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #0d0d0d; font-family: 'Poppins', sans-serif; color: white; padding-bottom: 150px; }
+        .header { background: linear-gradient(135deg, #d81b60, #880e4f); padding: 25px 15px; text-align: center; border-radius: 0 0 25px 25px; }
+        
+        .brand-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #brand-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; display: none; }
+        .brand-name { font-size: 20px; font-weight: 700; }
+
+        .search-container { padding: 20px 15px; }
+        #main-banner { width: 100%; height: 160px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; display: none; }
+        #search-bar { width: 100%; padding: 12px; border-radius: 25px; border: none; background: #1a1a1a; color: white; outline: none; border: 1px solid #333; box-sizing: border-box; }
+        
+        .music-list { padding: 0 15px; }
+        .track-card { background: #1a1a1a; padding: 12px; border-radius: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid #2a2a2a; }
+        .thumb { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; cursor: pointer; }
+        .track-info { flex-grow: 1; cursor: pointer; font-size: 14px; }
+        
+        .card-actions { display: flex; gap: 8px; }
+        .action-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: white; }
+        
+        #player-container { position: fixed; bottom: 70px; left: 2%; width: 96%; background: #1a1a1a; border: 1px solid #d81b60; border-radius: 15px; padding: 10px; z-index: 1000; display: none; box-sizing: border-box; }
+        .full-mode { top: 0; left: 0; width: 100%; height: 100vh; border-radius: 0; border: none; padding: 40px 20px; }
+        .expand-btn { position: absolute; top: 10px; left: 15px; font-size: 18px; cursor: pointer; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 18px; cursor: pointer; }
+        .player-controls { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 10px; }
+        .control-btn { font-size: 28px; color: white; border: none; background: none; cursor: pointer; }
+        #progress-bar { width: 100%; height: 4px; margin: 10px 0; cursor: pointer; accent-color: #d81b60; }
+        #playing-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 40px; }
+        .time-info { display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-top: 5px; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #151515; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a2a2a; z-index: 1001; }
+        .nav-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: white; }
+        .nav-btn.active { color: #d81b60; border-top: 2px solid #d81b60; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="brand-container">
+        <img id="brand-logo" src="" alt="Logo">
+        <div class="brand-name">THE SAD STATION 🎵</div>
+    </div>
+</div>
+
+<div class="search-container">
+    <img id="main-banner" src="" alt="Banner">
+    <input type="text" id="search-bar" placeholder="🔍 গান খুঁজুন...">
+</div>
+
+<div class="music-list" id="music-list"></div>
+
+<div id="player-container" class="mini-mode">
+    <div class="expand-btn" onclick="togglePlayerSize()">⬆️</div>
+    <div class="close-btn" onclick="closePlayer()">❌</div>
+    <div style="text-align: center;">
+        <div id="playing-title">গান বাজছে...</div>
+        <audio id="audio-player"></audio>
+        <input type="range" id="progress-bar" value="0" min="0" max="100">
+        <div class="time-info">
+            <span id="current-time">0:00</span>
+            <span id="total-duration">0:00</span>
+        </div>
+        <div class="player-controls">
+            <button class="control-btn" onclick="prevSong()">⏮️</button>
+            <button class="control-btn" id="play-pause-btn" onclick="togglePlayPause()">▶️</button>
+            <button class="control-btn" onclick="nextSong()">⏭️</button>
+        </div>
+    </div>
+</div>
+
+<div class="nav-bar">
+    <button class="nav-btn" onclick="location.href='index.html'">🏠</button>
+    <button class="nav-btn" onclick="location.href='wishlist.html'">❤️</button>
+    <button class="nav-btn" onclick="location.href='blog.html'">📝</button>
+    <button class="nav-btn" onclick="location.href='profile.html'">👤</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="config.js"></script>
+<script src="index.js"></script>
+<script>
+    function setActiveNav() {
+        const path = window.location.pathname;
+        const page = path.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            if (btn.getAttribute('onclick').includes(page)) btn.classList.add('active');
+        });
+    }
+    window.onload = setActiveNav;
+</script>
+</body>
+</html>

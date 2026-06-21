@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>প্রোফাইল | The Sad Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; background: #0d0d0d; font-family: 'Poppins', sans-serif; color: white; padding-bottom: 80px; }
+        .header { background: linear-gradient(135deg, #d81b60, #880e4f); padding: 25px 15px; text-align: center; border-radius: 0 0 25px 25px; }
+        .brand-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #brand-logo { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: none; }
+        
+        .profile-section { text-align: center; padding: 30px 20px; }
+        .avatar { width: 100px; height: 100px; background: #333; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid #d81b60; }
+        
+        .container { padding: 0 20px 20px; }
+        .card { background: #1a1a1a; padding: 20px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #2a2a2a; }
+        .menu-item { display: block; padding: 15px; border-bottom: 1px solid #333; color: white; text-decoration: none; font-size: 16px; }
+        .logout-btn { background: #d81b60; color: white; border: none; padding: 12px; border-radius: 12px; width: 100%; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        
+        /* সোশ্যাল ড্রপডাউন স্টাইল */
+        .follow-links { display: none; background: #222; border-radius: 8px; margin-top: 5px; overflow: hidden; }
+        .social-link { padding: 12px; display: block; color: #ddd; text-decoration: none; border-bottom: 1px solid #333; }
+        
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #151515; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a2a2a; z-index: 1001; }
+        .nav-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: white; text-decoration: none; padding: 5px; }
+        .nav-btn.active { color: #d81b60; border-top: 2px solid #d81b60; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="brand-container">
+        <img id="brand-logo" src="" alt="Logo">
+        <div style="font-weight:700; font-size:18px;">THE SAD STATION 🎵</div>
+    </div>
+</div>
+
+<div class="profile-section">
+    <div class="avatar" id="user-avatar">👤</div>
+    <h2 id="user-name" style="margin: 10px 0 5px;">লোড হচ্ছে...</h2>
+    <p id="user-email" style="color: #888; margin: 0;"></p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <p style="margin:0;">উইশলিস্টে গান আছে: <span id="wishlist-count" style="color:#d81b60; font-weight:bold;">০</span> টি</p>
+    </div>
+
+    <div class="card">
+        <a href="about.html" class="menu-item">ℹ️ আমাদের সম্পর্কে</a>
+        <a href="privacy.html" class="menu-item">🔒 প্রাইভেসি পলিসি</a>
+        <a href="contact.html" class="menu-item">✉️ যোগাযোগ করুন</a>
+        <a href="terms.html" class="menu-item">📜 ট্রামস এন্ড কন্ডিশন</a>
+        
+        <button class="menu-item" style="width:100%; border:none; text-align:left; cursor:pointer; background:none; color:white; font-family:inherit; font-size:16px;" onclick="toggleFollow()">📢 ফলো আস</button>
+        <div id="follow-dropdown" class="follow-links">
+            <a href="#" id="link-facebook" class="social-link" style="display:none;"><i class="fab fa-facebook"></i> ফেসবুক</a>
+            <a href="#" id="link-telegram" class="social-link" style="display:none;"><i class="fab fa-telegram"></i> টেলিগ্রাম</a>
+            <a href="#" id="link-youtube" class="social-link" style="display:none;"><i class="fab fa-youtube"></i> ইউটিউব</a>
+            <a href="#" id="link-instagram" class="social-link" style="display:none;"><i class="fab fa-instagram"></i> ইনস্টাগ্রাম</a>
+            <a href="#" id="link-tiktok" class="social-link" style="display:none;"><i class="fab fa-tiktok"></i> টিকটক</a>
+        </div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">লগআউট</button>
+</div>
+
+<div class="nav-bar">
+    <a href="index.html" class="nav-btn">🏠</a>
+    <a href="wishlist.html" class="nav-btn">❤️</a>
+    <a href="blog.html" class="nav-btn">📝</a>
+    <a href="profile.html" class="nav-btn active">👤</a>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="config.js"></script>
+
+<script>
+    // সোশ্যাল লিংক লোড করার ফাংশন
+    firebase.firestore().collection("site_branding").doc("social_links").get().then((doc) => {
+        if (doc.exists) {
+            const data = doc.data();
+            const links = { 
+                "link-facebook": data.facebook, 
+                "link-telegram": data.telegram, 
+                "link-youtube": data.youtube, 
+                "link-instagram": data.instagram, 
+                "link-tiktok": data.tiktok 
+            };
+            for (const [id, url] of Object.entries(links)) {
+                const el = document.getElementById(id);
+                if (url && el) { el.href = url; el.style.display = 'block'; }
+            }
+        }
+    });
+
+    // ফলো আস ড্রপডাউন টগল
+    function toggleFollow() {
+        const dropdown = document.getElementById("follow-dropdown");
+        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+    }
+</script>
+<script src="profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ব্লগ | The Sad Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #0d0d0d; font-family: 'Poppins', sans-serif; color: white; padding-bottom: 80px; }
+        .header { background: linear-gradient(135deg, #d81b60, #880e4f); padding: 25px 15px; text-align: center; border-radius: 0 0 25px 25px; }
+        
+        .brand-container { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #brand-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; display: none; }
+        .brand-name { font-size: 20px; font-weight: 700; }
+
+        .container { padding: 20px 15px; }
+        
+        /* সার্চ বার স্টাইল */
+        #search-bar { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 12px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; }
+
+        .blog-card { background: #1a1a1a; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #2a2a2a; }
+        .blog-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #d81b60; }
+        .blog-content { font-size: 14px; color: #ccc; line-height: 1.6; }
+        .blog-thumb { width: 100%; border-radius: 10px; cursor: pointer; }
+
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #151515; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2a2a2a; z-index: 1001; }
+        .nav-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: white; text-decoration: none; padding: 5px; }
+        .nav-btn.active { color: #d81b60; border-top: 2px solid #d81b60; }
+
+        /* নেক্সট বাটন স্টাইল */
+        #next-btn { padding: 12px 25px; background: #d81b60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="brand-container">
+        <img id="brand-logo" src="" alt="Logo">
+        <div class="brand-name">THE SAD STATION 🎵</div>
+    </div>
+</div>
+
+<div class="container">
+    <input type="text" id="search-bar" placeholder="ব্লগ খুঁজুন...">
+    
+    <div id="blog-list">
+        <p style="text-align:center; color: #888;">ব্লগ লোড হচ্ছে...</p>
+    </div>
+    
+    <div id="pagination-container" style="text-align: center; margin-top: 20px; display: none;">
+        <button id="next-btn">আরও দেখুন →</button>
+    </div>
+</div>
+
+<div class="nav-bar">
+    <a href="index.html" class="nav-btn">🏠</a>
+    <a href="wishlist.html" class="nav-btn">❤️</a>
+    <a href="blog.html" class="nav-btn active">📝</a>
+    <a href="profile.html" class="nav-btn">👤</a>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="config.js"></script>
+<script src="blog.js"></script>
+</body>
+</html>

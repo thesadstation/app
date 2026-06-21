@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>যোগাযোগ | The Sad Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="config.js"></script>
+    <style>
+        body { margin: 0; background: #0d0d0d; font-family: 'Poppins', sans-serif; color: white; padding-bottom: 30px; }
+        .header { background: linear-gradient(135deg, #d81b60, #880e4f); padding: 20px 15px; }
+        .back-btn { color: white; text-decoration: none; font-size: 18px; display: inline-block; }
+        .container { padding: 20px 15px; max-width: 600px; margin: auto; }
+        
+        h1 { font-size: 24px; font-weight: 700; color: #d81b60; margin-bottom: 20px; text-align: center; }
+        .contact-box { background: #121212; border: 1px solid #1c1c1c; border-radius: 16px; padding: 30px; }
+        
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #d81b60; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        
+        h2 { color: #fff; font-size: 20px; margin-bottom: 20px; border-left: 4px solid #d81b60; padding-left: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">← ফিরে যান</a>
+</div>
+
+<div class="container">
+    <h1>যোগাযোগ করুন</h1>
+    
+    <div class="contact-box">
+        <h2>বার্তা পাঠান</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="আপনার নাম" required>
+            <input type="email" id="email" placeholder="আপনার ইমেইল" required>
+            <textarea id="message" rows="5" placeholder="আপনার বার্তা লিখুন..." required></textarea>
+            <button type="submit" id="submit-btn">বার্তা পাঠান</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Firebase Firestore সংযোগ
+    const db = firebase.firestore();
+    const form = document.getElementById('contact-form');
+    const btn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = "পাঠানো হচ্ছে...";
+
+        // Firestore-এ মেসেজ সেভ করা
+        db.collection("messages").add({
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert("আপনার বার্তাটি সফলভাবে পাঠানো হয়েছে!");
+            form.reset();
+            btn.innerText = "বার্তা পাঠান";
+            btn.disabled = false;
+        }).catch((error) => {
+            alert("দুঃখিত, কোনো সমস্যা হয়েছে।");
+            btn.innerText = "বার্তা পাঠান";
+            btn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>

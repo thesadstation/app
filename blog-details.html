@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ব্লগ বিস্তারিত | The Sad Station</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #0d0d0d; font-family: 'Poppins', sans-serif; color: white; padding-bottom: 30px; }
+        .header { background: linear-gradient(135deg, #d81b60, #880e4f); padding: 20px 15px; }
+        .back-btn { color: white; text-decoration: none; font-size: 18px; }
+        .container { padding: 20px 15px; }
+        #post-thumb { width: 100%; border-radius: 16px; margin-bottom: 20px; }
+        #post-title { font-size: 24px; font-weight: 700; color: #d81b60; margin-bottom: 15px; }
+        #post-content { font-size: 16px; color: #ddd; line-height: 1.8; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="blog.html" class="back-btn">← ফিরে যান</a>
+</div>
+
+<div class="container">
+    <img id="post-thumb" src="" alt="Thumbnail" style="display:none;">
+    <h1 id="post-title">লোড হচ্ছে...</h1>
+    <div id="post-content">অনুগ্রহ করে অপেক্ষা করুন, পোস্টটি লোড হচ্ছে।</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+    const db = firebase.firestore();
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug'); // URL থেকে slug নিচ্ছে
+
+    async function loadPost() {
+        if (!slug) return;
+        
+        try {
+            // slug দিয়ে ফিল্টার করে পোস্ট খুঁজে বের করা
+            const snapshot = await db.collection("posts").where("slug", "==", slug).get();
+            
+            if (!snapshot.empty) {
+                const doc = snapshot.docs[0];
+                const post = doc.data();
+                
+                document.getElementById('post-title').innerText = post.metaDesc;
+                document.getElementById('post-content').innerText = post.content;
+                
+                const thumb = document.getElementById('post-thumb');
+                if(post.thumbnail) {
+                    thumb.src = post.thumbnail;
+                    thumb.style.display = "block";
+                }
+            } else {
+                document.getElementById('post-title').innerText = "পোস্টটি পাওয়া যায়নি!";
+            }
+        } catch (error) {
+            console.error("এরর:", error);
+        }
+    }
+
+    loadPost();
+</script>
+</body>
+</html>
