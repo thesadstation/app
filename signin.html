@@ -64,6 +64,11 @@
         const statusMsg = document.getElementById('status-msg');
 
         window.addEventListener('load', async () => {
+            // অটো-লগইন চেক
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                window.location.href = "home.html";
+            }
+
             const logoImg = document.getElementById('app-logo');
             try {
                 const doc = await window.db.collection("site_branding").doc("site_branding").get();
@@ -88,6 +93,7 @@
 
             try {
                 await firebase.auth().signInWithEmailAndPassword(email, password);
+                localStorage.setItem("isLoggedIn", "true"); // লগইন সেশন সেভ করা হলো
                 spinner.style.display = "none";
                 statusMsg.innerText = "আবারো স্বাগতম!";
                 setTimeout(() => { window.location.href = "home.html"; }, 1500);
