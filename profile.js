@@ -51,10 +51,11 @@ async function initProfile() {
     });
 }
 
-// লগআউট ফাংশন
+// লগআউট ফাংশন - আপডেট করা হয়েছে
 function logout() {
-    // লোডিং ইফেক্ট বাটনকে দেওয়া যায় চাইলে
     auth.signOut().then(() => {
+        // অটো-লগইন সেশন মুছে ফেলা
+        localStorage.removeItem("isLoggedIn");
         window.location.href = "signin.html";
     }).catch((error) => {
         console.error("লগআউট এরর:", error);
