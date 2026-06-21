@@ -90,7 +90,7 @@
                 await firebase.auth().signInWithEmailAndPassword(email, password);
                 spinner.style.display = "none";
                 statusMsg.innerText = "আবারো স্বাগতম!";
-                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+                setTimeout(() => { window.location.href = "home.html"; }, 1500);
             } catch (error) {
                 alert("ত্রুটি: " + error.message);
                 btn.disabled = false;
